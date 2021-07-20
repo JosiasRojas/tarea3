@@ -4,6 +4,7 @@ from config import config
 from models import Pais, CuentaBancaria, Moneda, PrecioMoneda, UsuarioTieneMoneda, Usuario
 from models import db
 from flask import request
+import datetime
 
 def create_app(enviroment):
 	app = Flask(__name__)
@@ -34,8 +35,15 @@ def create_pais():
 # Read
 @app.route('/api/pais', methods=['GET'])
 def get_paises():
-	paises = [ pais.json() for pais in Pais.query.all()]
-	return jsonify({'paises': paises})
+	if(request.is_json):
+		json = request.get_json(force=True)
+		if json.get('id') is None:
+			paises = [ pais.json() for pais in Pais.query.all()]
+		else:
+			paises = Pais.query.filter_by(cod_pais=json['id']).first().json()
+	else:
+		paises = [ pais.json() for pais in Pais.query.all()]
+	return jsonify({'pais': paises})
 
 # Update
 @app.route('/api/pais/<cod_pais>', methods=['PUT'])
@@ -81,8 +89,15 @@ def create_cuenta_bancaria():
 # Read
 @app.route('/api/cuenta_bancaria', methods=['GET'])
 def get_cuenta_bancaria():
-	cuentas_bancarias = [ cuenta_bancaria.json() for cuenta_bancaria in CuentaBancaria.query.all()]
-	return jsonify({'cuentas_bancarias': cuentas_bancarias})
+	if(request.is_json):
+		json = request.get_json(force=True)
+		if json.get('id') is None:
+			cuentas_bancarias = [ cuenta_bancaria.json() for cuenta_bancaria in CuentaBancaria.query.all()]
+		else:
+			cuentas_bancarias = CuentaBancaria.query.filter_by(numero_cuenta=json['id']).first().json()
+	else:
+		cuentas_bancarias = [ cuenta_bancaria.json() for cuenta_bancaria in CuentaBancaria.query.all()]
+	return jsonify({'cuenta_bancaria': cuentas_bancarias})
 
 # Update
 @app.route('/api/cuenta_bancaria/<numero_cuenta>', methods=['PUT'])
@@ -128,8 +143,15 @@ def create_moneda():
 # Read
 @app.route('/api/moneda', methods=['GET'])
 def get_moneda():
-	monedas = [ moneda.json() for moneda in Moneda.query.all()]
-	return jsonify({'monedas': monedas})
+	if(request.is_json):
+		json = request.get_json(force=True)
+		if json.get('id') is None:
+			monedas = [ moneda.json() for moneda in Moneda.query.all()]
+		else:
+			monedas = Moneda.query.filter_by(id=json['id']).first().json()
+	else:
+		monedas = [ moneda.json() for moneda in Moneda.query.all()]
+	return jsonify({'moneda': monedas})
 
 # Update
 @app.route('/api/moneda/<id>', methods=['PUT'])
@@ -176,17 +198,32 @@ def create_precio_moneda():
 # Read
 @app.route('/api/precio_moneda', methods=['GET'])
 def get_precio_moneda():
-	precios_monedas = [ precio_moneda.json() for precio_moneda in PrecioMoneda.query.all()]
-	return jsonify({'precios_monedas': precios_monedas})
+	if(request.is_json):
+		json = request.get_json(force=True)
+		if json.get('id') is None or json.get('fecha') is None:
+			precios_monedas = [ precio_moneda.json() for precio_moneda in PrecioMoneda.query.all()]
+		
+
+		fecha = datetime.datetime.strptime(json['fecha'],"%a, %d %b %Y %H:%M:%S GMT")
+
+		precios_monedas = PrecioMoneda.query.filter_by(id_moneda=json['id'],fecha=fecha).first()
+		if(precios_monedas):
+			precios_monedas = precios_monedas.json()
+	else:
+		precios_monedas = [ precio_moneda.json() for precio_moneda in PrecioMoneda.query.all()]
+	return jsonify({'precio_moneda': precios_monedas})
 
 # Update
 @app.route('/api/precio_moneda/<id_moneda>', methods=['PUT'])
 def update_precio_moneda(id_moneda):
-	precio_moneda = PrecioMoneda.query.filter_by(id_moneda=id_moneda).first()
+	json = request.get_json(force=True)
+	if json.get('fecha') is None:
+		return jsonify({'message': 'Bad request'}), 400
+	
+	precio_moneda = PrecioMoneda.query.filter_by(id_moneda=id_moneda,fecha=json['fecha']).first()
 	if precio_moneda is None:
 		return jsonify({'message': 'precio_moneda does not exists'}), 404
 	
-	json = request.get_json(force=True)
 	if json.get('valor') is None:
 		return jsonify({'message': 'Bad request'}), 400
 	
@@ -198,7 +235,11 @@ def update_precio_moneda(id_moneda):
 # Delete
 @app.route('/api/precio_moneda/<id_moneda>', methods=['DELETE'])
 def delete_precio_moneda(id_moneda):
-	precio_moneda = PrecioMoneda.query.filter_by(id_moneda=id_moneda).first()
+	json = request.get_json(force=True)
+	if json.get('fecha') is None:
+		return jsonify({'message': 'Bad request'}), 400
+
+	precio_moneda = PrecioMoneda.query.filter_by(id_moneda=id_moneda,fecha=json['fecha']).first()
 	if precio_moneda is None:
 		return jsonify({'message': 'Precio moneda does not exists'}), 404
 
@@ -224,8 +265,17 @@ def create_usuario_tiene_moneda():
 # Read
 @app.route('/api/usuario_tiene_moneda', methods=['GET'])
 def get_usuario_tiene_moneda():
-	usuarios_tienen_monedas = [ usuario_tiene_moneda.json() for usuario_tiene_moneda in UsuarioTieneMoneda.query.all()]
-	return jsonify({'usuarios_tienen_monedas': usuarios_tienen_monedas})
+	if(request.is_json):
+		json = request.get_json(force=True)
+		if json.get('id') is None or json.get('id2') is None:
+			usuarios_tienen_monedas = [ usuario_tiene_moneda.json() for usuario_tiene_moneda in UsuarioTieneMoneda.query.all()]
+		else:
+			usuarios_tienen_monedas = UsuarioTieneMoneda.query.filter_by(id_moneda=json['id'],id_usuario=json['id2']).first().json()
+	else:
+		usuarios_tienen_monedas = [ usuario_tiene_moneda.json() for usuario_tiene_moneda in UsuarioTieneMoneda.query.all()]
+
+	# usuarios_tienen_monedas = [ usuario_tiene_moneda.json() for usuario_tiene_moneda in UsuarioTieneMoneda.query.all()]
+	return jsonify({'usuario_tiene_moneda': usuarios_tienen_monedas})
 
 # Update
 @app.route('/api/usuario_tiene_moneda/<id_usuario>/<id_moneda>', methods=['PUT'])
@@ -274,8 +324,28 @@ def create_usuario():
 # Read
 @app.route('/api/usuario', methods=['GET'])
 def get_usuario():
-	usuarios = [ usuario.json() for usuario in Usuario.query.all()]
-	return jsonify({'usuarios': usuarios})
+
+	if(request.is_json):
+		json = request.get_json(force=True)
+		if json.get('id') is None:
+			usuarios = [ usuario.json() for usuario in Usuario.query.all()]
+		else:
+			usuarios = Usuario.query.filter_by(id=json['id']).first().json()
+	else:
+		usuarios = [ usuario.json() for usuario in Usuario.query.all()]
+	
+	# if json.get('id') is None:
+	# 	usuarios = [ usuario.json() for usuario in Usuario.query.all()]
+	# else:
+	# 	usuarios = Usuario.query.filter_by(id=id).first().json()
+	# usuarios = [ usuario.json() for usuario in Usuario.query.all()]
+	return jsonify({'usuario': usuarios})
+
+@app.route('/api/usuario/<id>', methods=['GET'])
+def get_usuario_id(id):
+	usuario = Usuario.query.filter_by(id=id).first().json()
+	# print(usuario.json())
+	return jsonify({'usuario': usuario})
 
 # Update
 @app.route('/api/usuario/<id>', methods=['PUT'])
