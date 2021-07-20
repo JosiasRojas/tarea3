@@ -1,0 +1,35 @@
+<?php include '../../include/navbar.html'; ?>
+<div class='container-fluid'>
+    <div class="row p-3">
+        <h1>Administración de Usuarios</h1>
+    </div>
+    <div class="row p-3">
+        <div class="col">
+            <!-- Mostrar aquí los datos de cada usuario -->
+            <div class="container shadow-lg rounded m-auto p-5 bg-light">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Se incluye el archivo php de ALL donde se describe el comportamiento que existira
+                        en el HTML (revisar echo: linea 11) -->
+                        <?php include 'CRUD/all.php'; ?>
+                        <!-- Debería haber una de estas por cada usuario -->
+                        <!-- Link de las Acciones debe llevar el ID del usuario -->
+                    </tbody>
+                </table>
+                <a href="/admin/users/create.html" class="btn c-btn-success">Nuevo <i class="fas fa-plus"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

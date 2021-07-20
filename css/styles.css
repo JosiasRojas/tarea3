@@ -1,0 +1,125 @@
+/* Si quieren utilizar CSS personalizado para la tarea, utilicen este archivo
+/* Fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Tammudu+2:wght@400;600&display=swap');
+
+/* Variables */
+:root{
+    --orange: #ffb2b0;
+    --bg: #534f77;
+    --green: #57B377;
+    --red: #FF6963;
+    --warning: #7296B3;
+
+    --bg-dark: #272538;
+    --green-dark: #38734D;
+    --red-dark: #BF4E4B;
+    --warning-dark: #496073;
+
+    --bg-light: white;
+}
+
+/* Estilos generales */
+
+html,body{
+    min-height: 100vh;
+}
+
+body{
+    background: linear-gradient(-45deg,white 10% ,var(--bg) 10%);
+    background-repeat: no-repeat;
+    font-family: 'Baloo Tammudu 2', cursive;
+    color: white;
+    /* min-height: 100vh; */
+}
+
+a{
+    color: white;
+}
+
+a:hover{
+    color: var(--orange);
+}
+
+td,th{
+    color: var(--bg);
+}
+
+
+.bg-light{
+    color: var(--bg);
+}
+
+/* Pagina principal */
+
+.intro-page{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 2em;
+    box-sizing: border-box;
+    z-index: -1;
+}
+
+.intro-image{
+    background-color: white;
+    background-image: url("../img/crypto.svg");
+    background-repeat: no-repeat;
+    background-size: 80%;
+    background-position: center;
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    right: 2em;
+    transform: translateY(-50%);
+    height: 80vh;
+    width: 80vh;
+    border-radius: 84% 16% 52% 48% / 44% 25% 75% 56% ;
+}
+
+/* Color botones */
+
+.c-btn-primary,.c-btn-warning,
+.c-btn-danger,.c-btn-success{
+    border-width: 0;
+    color: white;
+}
+
+.c-btn-primary:hover,.c-btn-warning:hover,
+.c-btn-danger:hover,.c-btn-success:hover{
+    color: white;
+}
+
+.c-btn-primary{
+    background-color: var(--bg);
+}
+.c-btn-primary:hover{
+    background-color: var(--bg-dark);
+}
+
+.c-btn-warning{
+    background-color: var(--warning);
+}
+
+.c-btn-warning:hover{
+    background-color: var(--warning-dark);
+}
+
+.c-btn-danger{
+    background-color: var(--red);
+}
+
+.c-btn-danger:hover{
+    background-color: var(--red-dark);
+}
+
+.c-btn-success{
+    background-color: var(--green);
+}
+
+.c-btn-success:hover{
+    background-color: var(--green-dark);
+}

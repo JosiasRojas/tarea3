@@ -1,0 +1,48 @@
+<?php include '../include/navbar.html'; ?>
+<?php include 'wallet.php'; ?> 
+    <div class='container-fluid'>
+        <div class="row p-3">
+            <h1>Mi Billetera</h1>
+        </div>
+        <div class="row p-3">
+            <div class="col">
+                <div class="container shadow-lg rounded m-auto p-5 bg-light">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Código</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Valor Actual</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Se revisa si se ha iniciado sesion a traves de isset($_SESSION["id_usuario"]) -->
+                            <!-- Si se acreedita, se revisa si hay resultados -->
+                            <!-- Si existen resultados en el waller, estos se muestran a traves de las sgtes lineas -->
+                            <?php if(isset($_SESSION["id_usuario"])) {
+                                    if(pg_num_rows($result)>0) {
+                                        while($row = pg_fetch_assoc($result)) {
+                                        echo
+                                        '<tr>
+                                        <td>'.$row['codigo'].'</td>
+                                        <td>'.$row["nombre"].'</td>
+                                        <td>'.$row["cantidad"].'</td>
+                                        <td>'.$row["valor_actual"].'</td>
+                                        <td>'.number_format($row["total"],2).'</td>
+                                        </tr>';
+                                    }
+                                }
+                            }
+                            pg_close($dbconn);?>
+                            <!-- Debería haber una de estas por cada moneda que tenga el usuario -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

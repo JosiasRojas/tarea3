@@ -1,0 +1,33 @@
+<?php include '../../include/navbar.html'; ?>
+<?php include 'CRUD/read.php'; ?>
+    <div class='container-fluid'>
+        <div class="row p-3">
+            <h1>Ver Usuario</h1>
+        </div>
+        <div class="row p-3">
+            <div class="col">
+                <div class="container shadow-lg rounded m-auto p-5 bg-light">
+                        <!-- Aquí debe aparecer toda la información relevante del usuario -->
+                        <!-- se revisa a traves de isset($usuario) que la sesion esta iniciada -->
+                    <?php if(isset($usuario)){
+                        echo'
+                    <p>ID: '.$usuario['id_usuario'].'</p>
+                    <p>Nombre: '.$usuario['nombre'].'</p>
+                    <p>Apellido: '.$usuario['apellido'].'</p>
+                    <p>Correo: '.$usuario['correo'].'</p>
+                    <p>País: '.$usuario['pais'].'</p>
+                    <p>Fecha de Ingreso: '.$usuario['fecha_ingreso'].'</p>
+                    <div class="d-flex justify-content-end">
+                        <a href="/admin/users/all.html" class="btn btn-secondary">Volver</a>
+                        <!-- Estos links deberían tener el ID asociado -->
+                        <a href="/admin/users/update.html?id='.$usuario['id_usuario'].'" class="btn c-btn-warning mx-3">Editar <i class="fas fa-edit"></i></a>
+                        <a href="/admin/users/CRUD/delete.php?id='.$usuario['id_usuario'].'" class="btn c-btn-danger">Borrar <i class="fas fa-trash-alt"></i></a></td>
+                    </div>'; 
+                    }?>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

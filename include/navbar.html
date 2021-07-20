@@ -1,0 +1,56 @@
+<?php include 'header.html'; ?>
+<?php include $_SERVER['DOCUMENT_ROOT']. '/sesion/valida_sesion.php' ?>
+<body>
+    <nav class="navbar navbar-expand-sm">
+        <!-- Ponga el número de su equipo -->
+        <a class="navbar-brand" href="/index.html">Equipo X</a>
+
+        <ul class="navbar-nav">
+            <!-- Visible solo si hay una sesión iniciada -->
+            <!-- Con isset($_SESSION["id_usuario"]) verificamos si hay una sesion existente -->
+            <!-- Con $_SESSION["is_admin"] verificamos si el usuario es admin siendo f = FALSE Y t = TRUE -->
+            <!-- Con $_SESSION["tiene_moneda"] verificamos si el usuario posee dinero en Billetera, siendo
+            1: que posee dinero y 0: que no posee dinero. -->
+            <?php
+            if(isset($_SESSION["id_usuario"])){
+                echo '<li class="nav-item">
+                    <a class="nav-link" href="/user/profile.html">Perfil</a>
+                </li>';
+                if($_SESSION["is_admin"] == 'f' && $_SESSION["tiene_moneda"] == 1){
+                    echo '
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/wallet.html">Billetera</a>
+                    </li>';
+                }
+                if($_SESSION["is_admin"] == 't'){
+                    echo '<li class="nav-item">
+                        <a class="nav-link" href="/admin/users/all.html">Usuarios</a>
+                    </li>';
+                }
+            }
+            ?>
+            <!-- Solo el admin puede revisar los usuarios -->
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <!-- Visible solo si hay una sesión iniciada -->
+            <!-- Con isset($_SESSION["id_usuario"]) verificamos si hay una sesion existente -->
+            <?php
+            if(isset($_SESSION["id_usuario"])){
+                echo '<li class="nav-item">
+                    <a class="nav-link" href="/sesion/logout.php">Cerrar Sesión</a>
+                </li>';
+            }
+            else{
+                echo '            <!-- Visible solo si NO hay una sesión iniciada -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/sesion/log-in.html">Iniciar Sesión</a>
+                </li>
+                <!-- Visible solo si NO hay una sesión iniciada -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/sesion/sign-up.html">Registrarse</a>
+                </li>';
+            }
+            ?>
+
+        </ul>
+    </nav>

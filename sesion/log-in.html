@@ -1,0 +1,29 @@
+<?php include '../include/header.html'; ?>
+<?php include 'valida_sesion.php' ?>
+<body>
+    <div class='container-fluid'>
+        <div class='row justify-content-center pt-5'>
+            <div class='container-6 shadow-lg rounded m-auto p-5 bg-light'>
+                <h1>Bienvenido</h1>
+                <p>Ingrese sus datos para iniciar sesión.</p>
+                <form action="/sesion/valida_login.php" method="POST">
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" class="form-control" name= "correo" placeholder="correo@electronico.com" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">Contraseña</label>
+                        <input type="password" class="form-control" name= "contra" placeholder="Contraseña" id="pwd" required>
+                    </div>
+                    <div class='d-flex justify-content-end'>
+                        <button type="submit" class="btn c-btn-primary">Enviar <i class="fas fa-sign-in-alt"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
