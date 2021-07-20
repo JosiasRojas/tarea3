@@ -5,6 +5,7 @@ from models import Pais, CuentaBancaria, Moneda, PrecioMoneda, UsuarioTieneMoned
 from models import db
 from flask import request
 import datetime
+from sqlalchemy import func
 
 def create_app(enviroment):
 	app = Flask(__name__)
@@ -205,9 +206,17 @@ def get_precio_moneda():
 		
 
 		fecha = datetime.datetime.strptime(json['fecha'],"%a, %d %b %Y %H:%M:%S GMT")
+		menor = fecha - datetime.timedelta(seconds=0.5)
+		print(menor)
+		mayor = fecha + datetime.timedelta(seconds=0.5)
 
-		precios_monedas = PrecioMoneda.query.filter_by(id_moneda=json['id'],fecha=fecha).first()
+		precios_monedas = PrecioMoneda.query.filter(PrecioMoneda.fecha.between(menor,mayor)).first()
+		# precios_monedas = PrecioMoneda.query.filter(func.date(PrecioMoneda.fecha) == fecha).all()
+
+		print(precios_monedas)
+		# precios_monedas = PrecioMoneda.query.filter_by(id_moneda=json['id'],fecha=fecha).first()
 		if(precios_monedas):
+			# precios_monedas = [ precio_moneda.json() for precio_moneda in precios_monedas]
 			precios_monedas = precios_monedas.json()
 	else:
 		precios_monedas = [ precio_moneda.json() for precio_moneda in PrecioMoneda.query.all()]
