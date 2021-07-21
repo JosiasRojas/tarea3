@@ -10,8 +10,17 @@ Integrantes:
 
 Se asume que todos los usuarios tienen acceso a la pestaña de simulación
 
-No existiran
+No existira mas de un cambio del precio de la moneda por segundo
+
+Para **cambiar la fecha** del precio de una moneda se hace un *POST*
+
+Para cambiar el valor **sin alterar la fecha** el precio de una moneda se hace un *PUT*
 
 # Consideraciones
 
 Para cada tabla en la API existe la posibilidad de obtener todas las filas de la tabla y la de obtener un solo elemento mediante el metodo GET pasando un "id" en el body.
+
+Para las peticiones de la api/consultas se deben entregar siempre los codigos/id en el caso de:
+- pais
+- usuario_tiene_moneda
+- moneda

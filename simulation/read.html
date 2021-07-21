@@ -10,21 +10,38 @@
                         <!-- Aquí debe aparecer toda la información relevante del usuario -->
                         <!-- se revisa a traves de isset($usuario) que la sesion esta iniciada -->
                     <?php 
-                    /*if(isset($usuario)){
-                        echo'
-                    <p>ID: '.$usuario['id_usuario'].'</p>
-                    <p>Nombre: '.$usuario['nombre'].'</p>
-                    <p>Apellido: '.$usuario['apellido'].'</p>
-                    <p>Correo: '.$usuario['correo'].'</p>
-                    <p>País: '.$usuario['pais'].'</p>
-                    <p>Fecha de Ingreso: '.$usuario['fecha_ingreso'].'</p>
-                    <div class="d-flex justify-content-end">
-                        <a href="/admin/users/all.html" class="btn btn-secondary">Volver</a>
-                        <!-- Estos links deberían tener el ID asociado -->
-                        <a href="/admin/users/update.html?id='.$usuario['id_usuario'].'" class="btn c-btn-warning mx-3">Editar <i class="fas fa-edit"></i></a>
-                        <a href="/admin/users/CRUD/delete.php?id='.$usuario['id_usuario'].'" class="btn c-btn-danger">Borrar <i class="fas fa-trash-alt"></i></a></td>
-                    </div>'; 
-                    }*/?>
+                        foreach($data as $key => $val){
+                            echo "<p>$key: $val</p>";
+                        }
+                        echo '
+                            <div class="d-flex justify-content-end">
+                                <a href="/simulation/CRUDLinks.html" class="btn btn-secondary">Volver</a>
+                                <!-- Estos links deberían tener el ID asociado -->';
+                        if($table == "usuario_tiene_moneda"){
+                            echo "
+                                <a href='/simulation/update.html?id=".$data_array['id']."&id2=".$data_array['id2']."&table=".$table."' class='btn c-btn-warning'>Editar <i
+                                    class='fas fa-edit'></i></a>
+                                <a href='/simulation/CRUD/delete.php?id=".$data_array['id']."&id2=".$data_array['id2']."&table=".$table."' class='btn c-btn-danger'>Borrar <i
+                                    class='fas fa-trash-alt'></i></a>
+                            ";
+                            echo "</tr>";
+                        }else if($table == "precio_moneda"){
+                            echo "
+                                <a href='/simulation/update.html?id=".$data_array['id']."&fecha=".$data_array['fecha']."&table=".$table."' class='btn c-btn-warning'>Editar <i
+                                    class='fas fa-edit'></i></a>
+                                <a href='/simulation/CRUD/delete.php?id=".$data_array['id']."&fecha=".$data_array['fecha']."&table=".$table."' class='btn c-btn-danger'>Borrar <i
+                                    class='fas fa-trash-alt'></i></a>
+                            ";
+                        }
+                        else{
+                            echo "
+                                <a href='/simulation/update.html?id=".$data_array["id"]."&table=".$table."' class='btn c-btn-warning'>Editar <i
+                                    class='fas fa-edit'></i></a>
+                                <a href='/simulation/CRUD/delete.php?id=".$data_array["id"]."&table=".$table."' class='btn c-btn-danger'>Borrar <i
+                                    class='fas fa-trash-alt'></i></a>";
+                        }
+                        echo "</div>";
+                    ?>
                 </div>
             </div>
         </div>

@@ -207,10 +207,9 @@ def get_precio_moneda():
 
 		fecha = datetime.datetime.strptime(json['fecha'],"%a, %d %b %Y %H:%M:%S GMT")
 		menor = fecha - datetime.timedelta(seconds=0.5)
-		print(menor)
 		mayor = fecha + datetime.timedelta(seconds=0.5)
 
-		precios_monedas = PrecioMoneda.query.filter(PrecioMoneda.fecha.between(menor,mayor)).first()
+		precios_monedas = PrecioMoneda.query.filter(PrecioMoneda.fecha.between(menor,mayor)).filter(PrecioMoneda.id_moneda==json['id']).first()
 		# precios_monedas = PrecioMoneda.query.filter(func.date(PrecioMoneda.fecha) == fecha).all()
 
 		print(precios_monedas)
@@ -229,7 +228,12 @@ def update_precio_moneda(id_moneda):
 	if json.get('fecha') is None:
 		return jsonify({'message': 'Bad request'}), 400
 	
-	precio_moneda = PrecioMoneda.query.filter_by(id_moneda=id_moneda,fecha=json['fecha']).first()
+
+	fecha = datetime.datetime.strptime(json['fecha'],"%a, %d %b %Y %H:%M:%S GMT")
+	menor = fecha - datetime.timedelta(seconds=0.5)
+	mayor = fecha + datetime.timedelta(seconds=0.5)
+	precio_moneda = PrecioMoneda.query.filter(PrecioMoneda.fecha.between(menor,mayor)).filter(PrecioMoneda.id_moneda==id_moneda).first()
+	# precio_moneda = PrecioMoneda.query.filter_by(id_moneda=id_moneda,fecha=json['fecha']).first()
 	if precio_moneda is None:
 		return jsonify({'message': 'precio_moneda does not exists'}), 404
 	
@@ -389,13 +393,74 @@ def delete_usuario(id):
 	return jsonify({'usuario': usuario.json() })
 
 
+# =================================================================================================
 
+@app.route('/api/consultas/1', methods=["GET"])
+def all_users():
+	json = request.get_json(force=True)
+	if json.get('year') is None:
+		return jsonify({'message': 'Bad request'}), 400
 
+	year = json['year'] # 2000 2000/01/01 - 2000/12/31
+	initialDate = datetime.datetime.strptime(str(year),'%Y')
+	finalDate = datetime.datetime.strptime(str(year+1),'%Y') - datetime.timedelta(seconds=1)
 
+	usuarios = Usuario.query.filter(Usuario.fecha_registro.between(initialDate,finalDate)).all()
+	usuarios = [usuario.json() for usuario in usuarios]
 
+	return jsonify({'usuarios':usuarios}), 200
 
+@app.route('/api/consultas/2', methods=["GET"])
+def all_accounts():
+	json = request.get_json(force=True)
+	if json.get('balance') is None:
+		return jsonify({'message': 'Bad request'}), 400
 
+	balance = json['balance']
+	cuentas = CuentaBancaria.query.filter(CuentaBancaria.balance > balance).all()
+	cuentas = [cuenta.json() for cuenta in cuentas]
 
+	return jsonify({'cuentas':cuentas}), 200
+
+@app.route('/api/consultas/3', methods=["GET"])
+def all_in_pais():
+	json = request.get_json(force=True)
+	if json.get('pais') is None:
+		return jsonify({'message': 'Bad request'}), 400
+
+	pais = json['pais']
+
+	usuarios = Usuario.query.filter(Usuario.pais == pais).all()
+	usuarios = [usuario.json() for usuario in usuarios]
+
+	return jsonify({'usuarios':usuarios}), 200
+
+@app.route('/api/consultas/4', methods=["GET"])
+def max_value():
+	json = request.get_json(force=True)
+	if json.get('moneda') is None:
+		return jsonify({'message': 'Bad request'}), 400
+
+	moneda = json['moneda']
+
+	monedas = PrecioMoneda.query.filter(PrecioMoneda.id_moneda == moneda).order_by(PrecioMoneda.valor).limit(1)
+	monedas = [moneda.json()['valor'] for moneda in monedas]
+	return jsonify({'valor_maximo':monedas[0]}), 200
+
+@app.route('/api/consultas/5', methods=["GET"])
+def circulacion():
+	json = request.get_json(force=True)
+	if json.get('moneda') is None:
+		return jsonify({'message': 'Bad request'}), 400
+
+	moneda = json['moneda']
+
+	monedas = UsuarioTieneMoneda.query.\
+					with_entities(func.sum(UsuarioTieneMoneda.balance)).\
+					filter(UsuarioTieneMoneda.id_moneda == moneda).all()
+	
+	monedas = monedas[0][0]
+	return jsonify({'monedas':monedas}), 200
 
 
 

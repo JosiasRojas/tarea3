@@ -12,5 +12,6 @@ curl_setopt($ch, CURLOPT_URL, $api_url);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
 curl_exec($ch);
 curl_close($ch);
+header('location: /simulation/CRUD.html?table='.$table);
 
 ?>

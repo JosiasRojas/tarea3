@@ -207,7 +207,7 @@ class Moneda(db.Model):
 class PrecioMoneda(db.Model):
     __tablename__ = 'precio_moneda'
     id_moneda = db.Column(db.Integer, db.ForeignKey('moneda.id'), primary_key=True)
-    fecha = db.Column(db.DateTime, default=db.func.current_timestamp(), primary_key=True)
+    fecha = db.Column(db.DateTime, default=db.func.current_timestamp() , primary_key=True)
     valor = db.Column(db.Float, nullable=False)
 
     @classmethod

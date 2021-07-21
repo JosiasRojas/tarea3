@@ -4,6 +4,7 @@ include $_SERVER['DOCUMENT_ROOT'].'/db_config.php';
 
 /* se crea un variable $usuario */
 $usuario = NULL;
+$table = NULL;
 // Solo se aceptan usuarios administradores
 if(isset($_SESSION["id_usuario"]) && $_SESSION["is_admin"] == 't'){
     // id= es valor de la id; id_name=nombre del campo del id; table = tabla a la cual se esta accediendo
@@ -29,7 +30,8 @@ if(isset($_SESSION["id_usuario"]) && $_SESSION["is_admin"] == 't'){
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_array));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $output = curl_exec($ch);
-        print_r($output);
+        $data = json_decode($output,true);
+        $data = $data[$table];
         curl_close($ch);
     }
 }
