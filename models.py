@@ -1,5 +1,6 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import backref, relationship
 
 db = SQLAlchemy()
 
@@ -46,7 +47,7 @@ class Usuario(db.Model):
     nombre = db.Column(db.String(50),nullable=False)
     apellido = db.Column(db.String(50))
     correo = db.Column(db.String(50),nullable=False)
-    contraseña = db.Column(db.String(50),nullable=False)
+    contraseña = db.Column(db.String(100),nullable=False)
     pais = db.Column(db.Integer, db.ForeignKey('pais.cod_pais'),nullable=False)
     fecha_registro = db.Column(db.DateTime, default=db.func.current_timestamp(),nullable=False)
 
@@ -90,7 +91,7 @@ class Usuario(db.Model):
 class CuentaBancaria(db.Model):
     __tablename__ = 'cuenta_bancaria'
     numero_cuenta = db.Column(db.Integer, primary_key=True)
-    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id',ondelete = "cascade"), nullable=False)
     balance = db.Column(db.Float, nullable=False)
 
     @classmethod
@@ -128,8 +129,8 @@ class CuentaBancaria(db.Model):
 
 class UsuarioTieneMoneda(db.Model):
     __tablename__ = 'usuario_tiene_moneda'
-    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id'), primary_key=True)
-    id_moneda = db.Column(db.Integer, db.ForeignKey('moneda.id'), primary_key=True)
+    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id', ondelete="cascade"), primary_key=True)
+    id_moneda = db.Column(db.Integer, db.ForeignKey('moneda.id', ondelete="cascade"), primary_key=True)
     balance = db.Column(db.Float, nullable=False)
 
     @classmethod
@@ -206,7 +207,7 @@ class Moneda(db.Model):
 
 class PrecioMoneda(db.Model):
     __tablename__ = 'precio_moneda'
-    id_moneda = db.Column(db.Integer, db.ForeignKey('moneda.id'), primary_key=True)
+    id_moneda = db.Column(db.Integer, db.ForeignKey('moneda.id', ondelete="cascade"), primary_key=True)
     fecha = db.Column(db.DateTime, default=db.func.current_timestamp() , primary_key=True)
     valor = db.Column(db.Float, nullable=False)
 

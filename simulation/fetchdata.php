@@ -19,7 +19,9 @@
             <tr>
         ";
         foreach($response_data["$table"][0] as $key => $val){
-            echo "<th>$key</th>";
+            if($key != "contraseña"){
+                echo "<th>$key</th>";
+            }
         }
         echo "
             </tr>
@@ -29,8 +31,10 @@
     
         foreach($response_data["$table"] as $res){
             echo "<tr>";
-            foreach($res as $values){
-                echo "<td>$values</td>";
+            foreach($res as $key => $values){
+                if($key != "contraseña"){
+                    echo "<td>$values</td>";
+                }
             }
             if($table == "usuario_tiene_moneda"){
                 echo "

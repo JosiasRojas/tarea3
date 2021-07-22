@@ -13,10 +13,17 @@
                         $table = $_GET['table'];
                         $data = getForm($table);
                         foreach($data as $val){
-                            echo "<div class='form-group'>
-                                <label for='$val'>$val</label>
-                                <input type='text' class='form-control' name='$val' id='$val' required>
-                            </div>";
+                            if($val == "contraseña"){
+                                echo "<div class='form-group'>
+                                    <label for='$val'>$val</label>
+                                    <input type='password' class='form-control' name='$val' id='$val' required>
+                                </div>";
+                            }else{
+                                echo "<div class='form-group'>
+                                    <label for='$val'>$val</label>
+                                    <input type='text' class='form-control' name='$val' id='$val' required>
+                                </div>";
+                            }
                         }
 
                         ?>

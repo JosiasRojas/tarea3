@@ -10,10 +10,8 @@
                 <div class="container shadow-lg rounded m-auto p-5 bg-light">
                     <form action='/simulation/CRUD/update.php?table=<?php echo $table; ?>&<?php echo "id=$id"; ?>'' method="POST">
                         <?php
-
-
-
                             foreach($data as $key => $val){
+                                // Solo mostrar los valores que se pueden actualizar
                                 if(!isRestricted($table,$key)){
                                     echo "<div class='form-group'>
                                         <label for='$key'>$key</label>

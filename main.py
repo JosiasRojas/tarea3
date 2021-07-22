@@ -332,6 +332,7 @@ def create_usuario():
 	else:
 		usuario = Usuario.create(json['nombre'],json['apellido'],json['correo'],json['contraseña'],json['pais'])
 
+	print(type(usuario))
 	return jsonify({'usuario': usuario.json()})
 
 # Read

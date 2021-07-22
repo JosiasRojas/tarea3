@@ -7,6 +7,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST" &&  isset($_GET['table'])){
     $api_url = "http://localhost:5000/api/$table";
     $data_array = $_POST;
 
+    // Si existe contraseña se guarda hasheada
+    if(isset($data_array['contraseña'])){
+        /* Se establece el costo de hash de las contraseñas */
+        $contrasena = $data_array["contraseña"];
+        $opciones = array('cost'=>12);
+        $contrasena_hasheada = password_hash($contrasena, PASSWORD_BCRYPT, $opciones);
+        $data_array["contraseña"] = $contrasena_hasheada;
+        echo $data_array["contraseña"];
+    }
+
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $api_url);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');

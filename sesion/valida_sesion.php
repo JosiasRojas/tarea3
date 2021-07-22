@@ -11,7 +11,8 @@ $uri = $_SERVER['REQUEST_URI'];
 /* Esto hara que el usuario no admin no pueda ver las paginas que le brindan las funciones propias de admin */
 if(isset($_SESSION["id_usuario"]) && $_SESSION["is_admin"] == 'f'){
    if($uri == '/admin/users/all.html' || startsWith($uri,'/admin/users/create.html') || startsWith($uri,'/admin/users/delete.html')
-   || startsWith($uri,'/admin/users/update.html') || startsWith($uri,'/admin/users/read.html')){
+   || startsWith($uri,'/admin/users/update.html') || startsWith($uri,'/admin/users/read.html')
+   || startsWith($uri,'/simulation')){
       /* En caso de intentar acceder, se redirige a la pagina de inicio */
       header('location: /index.html');
    }

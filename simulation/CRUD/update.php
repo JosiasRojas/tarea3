@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $api_url);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
         curl_setopt($ch,CURLOPT_HTTPHEADER,array("Content-type: application/json"));
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data_array));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

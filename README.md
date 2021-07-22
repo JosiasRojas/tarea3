@@ -16,6 +16,8 @@ Para **cambiar la fecha** del precio de una moneda se hace un *POST*
 
 Para cambiar el valor **sin alterar la fecha** el precio de una moneda se hace un *PUT*
 
+No se borraran paises que tengan usuario
+
 # Consideraciones
 
 Para cada tabla en la API existe la posibilidad de obtener todas las filas de la tabla y la de obtener un solo elemento mediante el metodo GET pasando un "id" en el body.
