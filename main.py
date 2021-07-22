@@ -369,14 +369,13 @@ def update_usuario(id):
 		return jsonify({'message': 'usuario does not exists'}), 404
 	
 	json = request.get_json(force=True)
-	if json.get('nombre') is None or json.get('correo') is None or json.get('contraseña') is None or json.get('pais') is None:
+	if json.get('nombre') is None or json.get('correo') is None or json.get('pais') is None:
 		return jsonify({'message': 'Bad request'}), 400
 	
 	usuario.nombre = json['nombre']
 	if json.get('apellido') is not None:
 		usuario.apellido = json['apellido']
 	usuario.correo = json['correo']
-	usuario.contraseña = json['contraseña']
 	usuario.pais = json['pais']
 	usuario.update()
 

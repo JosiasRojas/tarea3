@@ -13,10 +13,17 @@
                             foreach($data as $key => $val){
                                 // Solo mostrar los valores que se pueden actualizar
                                 if(!isRestricted($table,$key)){
-                                    echo "<div class='form-group'>
-                                        <label for='$key'>$key</label>
-                                        <input type='text' class='form-control' name='$key' id='$key' value='$val' required>
-                                    </div>";
+                                    if($key == "correo"){
+                                        echo "<div class='form-group'>
+                                            <label for='$key'>$key</label>
+                                            <input type='email' class='form-control' name='$key' id='$key' value='$val' required>
+                                        </div>";
+                                    }else{
+                                        echo "<div class='form-group'>
+                                            <label for='$key'>$key</label>
+                                            <input type='text' class='form-control' name='$key' id='$key' value='$val' required>
+                                        </div>";
+                                    }
                                 }
                             }
                         ?>

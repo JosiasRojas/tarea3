@@ -18,6 +18,8 @@ Para cambiar el valor **sin alterar la fecha** el precio de una moneda se hace u
 
 No se borraran paises que tengan usuario
 
+La contraseña de los usuarios no se cambiara una vez creado
+
 # Consideraciones
 
 Para cada tabla en la API existe la posibilidad de obtener todas las filas de la tabla y la de obtener un solo elemento mediante el metodo GET pasando un "id" en el body.
