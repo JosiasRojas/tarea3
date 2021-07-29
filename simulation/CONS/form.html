@@ -1,0 +1,27 @@
+<?php include '../../include/navbar.html'; ?>
+<?php include './consultas.php'; ?>
+<div class="container bg-light col-6 p-4">
+    <h2>Descripcion</h2>
+    <p><?php echo $consultas_info[$_GET['c']]['descripcion'] ?></p>
+    <form action="/simulation/CONS/consultas.php?c=<?php echo $_GET['c'];?>" method="POST">
+        <?php 
+            if(isset($consultas_info[$_GET['c']]['form'])){
+                $form = $consultas_info[$_GET['c']]['form'];
+                $val = $form[0];
+                $placeholder = $form[1];
+                $type = $form[2];
+
+                echo "
+                <div class='form-group'>
+                    <label for='$val'>$val</label>
+                    <input type='$type' class='form-control' placeholder='$placeholder' name='data' id='$val' required>
+                </div>";
+            }
+        ?>
+        <div class='d-flex justify-content-end'>
+            <a class="btn btn-secondary mx-3" href="/simulation/Consultas.html">Volver</a>
+            <button type="submit" class="btn c-btn-primary">Hacer consulta</button>
+        </div>
+    </form>
+
+</div>

@@ -1,0 +1,22 @@
+<?php include '../../include/navbar.html'; ?>
+<div class="container bg-light p-4">
+    <?php   
+        if(isset($_SESSION['data'])){
+            $data = $_SESSION['data'];
+            
+            if(is_array($data)){
+                foreach($data as $dato){
+                    foreach($dato as $key => $val){
+                        if($key != 'contraseña'){
+                            echo "<p>$key: $val</p>";
+                        }
+                    }
+                    echo "<br>";
+                }
+            }else{
+                echo $data;
+            }
+        }
+
+    ?>
+</div>

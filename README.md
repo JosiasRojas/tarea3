@@ -8,17 +8,14 @@ Integrantes:
 
 # Supuestos
 
-Se asume que todos los usuarios tienen acceso a la pestaña de simulación
-
-No existira mas de un cambio del precio de la moneda por segundo
-
-Para **cambiar la fecha** del precio de una moneda se hace un *POST*
-
-Para cambiar el valor **sin alterar la fecha** el precio de una moneda se hace un *PUT*
-
-No se borraran paises que tengan usuario
-
-La contraseña de los usuarios no se cambiara una vez creado
+- Se asume que todos los usuarios tienen acceso a la pestaña de simulación
+- No existira mas de un cambio del precio de la moneda dentro de 5 segundos
+- No se creara la misma moneda con otro precio dentro de 5 segundos a partir de la ultima insercion de esta moneda
+- Para **cambiar la fecha** del precio de una moneda se hace un *POST*
+- Para cambiar el valor **sin alterar la fecha** el precio de una moneda se hace un *PUT*
+- No se borraran paises que tengan usuario
+- La contraseña de los usuarios no se cambiara una vez creado
+- La consulta 2 el monto es extrictamente superior
 
 # Consideraciones
 
