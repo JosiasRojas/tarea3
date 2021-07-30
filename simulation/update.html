@@ -10,6 +10,7 @@
                 <div class="container shadow-lg rounded m-auto p-5 bg-light">
                     <form action='/simulation/CRUD/update.php?table=<?php echo $table; ?>&<?php echo "id=$id"; ?>'' method="POST">
                         <?php
+                            $paises = getFormPaises();
                             foreach($data as $key => $val){
                                 // Solo mostrar los valores que se pueden actualizar
                                 if(!isRestricted($table,$key)){
@@ -18,13 +19,33 @@
                                             <label for='$key'>$key</label>
                                             <input type='email' class='form-control' name='$key' id='$key' value='$val' required>
                                         </div>";
-                                    }else{
+                                    }else if($key != "pais" || ($key == "paises" && $table != "usuario")){
                                         echo "<div class='form-group'>
                                             <label for='$key'>$key</label>
                                             <input type='text' class='form-control' name='$key' id='$key' value='$val' required>
                                         </div>";
                                     }
                                 }
+                            }
+                            // Elegir pais
+                            if($table == "usuario"){
+                                echo "
+                                <div class='form-group'>
+                                    <label for='pais'>pais</label>
+                                    <select class='form-control' name='pais' id='pais'>";
+                                foreach($paises as $values){
+                                    $val = $values['cod_pais'];
+                                    $name = $values['nombre'];
+                                    if($val == $data['pais']){
+                                        echo "<option value='$val' selected>$name</option>";
+                                    }else{
+                                        echo "<option value='$val'>$name</option>";
+                                    }
+                                }
+                                echo "
+                                    </select>
+                                </div>   
+                                ";
                             }
                         ?>
                         <div class='d-flex justify-content-end'>

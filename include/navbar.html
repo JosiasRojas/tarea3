@@ -16,6 +16,10 @@
                 echo '<li class="nav-item">
                     <a class="nav-link" href="/user/profile.html">Perfil</a>
                 </li>';
+                // disponible para todos los usuarios
+                echo '<li class="nav-item">
+                    <a class="nav-link" href="/simulation/simulation.html">Simulacion</a>
+                </li>';
                 if($_SESSION["is_admin"] == 'f' && $_SESSION["tiene_moneda"] == 1){
                     echo '
                     <li class="nav-item">
@@ -25,9 +29,6 @@
                 if($_SESSION["is_admin"] == 't'){
                     echo '<li class="nav-item">
                         <a class="nav-link" href="/admin/users/all.html">Usuarios</a>
-                    </li>';
-                    echo '<li class="nav-item">
-                        <a class="nav-link" href="/simulation/simulation.html">Simulacion</a>
                     </li>';
                 }
                 

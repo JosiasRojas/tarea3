@@ -18,4 +18,18 @@ function isRestricted($table,$val){
     return false;
 }
 
+function getFormPaises(){
+    $api_url = "localhost:5000/api/pais";
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $api_url);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $output = curl_exec($ch);
+    $data = json_decode($output,true);
+    
+    $data = $data["pais"];
+    curl_close($ch);
+    return $data;
+}
+
 ?>

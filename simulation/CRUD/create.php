@@ -1,5 +1,6 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'].'/db_config.php';
+include 'restricciones.php';
 
 
 if($_SERVER["REQUEST_METHOD"] == "POST" &&  isset($_GET['table'])){
@@ -14,7 +15,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST" &&  isset($_GET['table'])){
         $opciones = array('cost'=>12);
         $contrasena_hasheada = password_hash($contrasena, PASSWORD_BCRYPT, $opciones);
         $data_array["contraseña"] = $contrasena_hasheada;
-        echo $data_array["contraseña"];
     }
 
     $ch = curl_init();
@@ -29,15 +29,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST" &&  isset($_GET['table'])){
 
 
 function getForm($table){
+
+    $paises = getFormPaises();
+
     $forms = array(
-        "pais" => array("cod_pais","nombre"),
-        "usuario" => array("nombre","apellido","correo","contraseña","pais"),
-        "cuenta_bancaria" => array("id_usuario","balance"),
-        "moneda" => array("sigla","nombre"),
-        "precio_moneda" => array("id_moneda","valor"),
-        "usuario_tiene_moneda" => array("balance","id_usuario","id_moneda")
+        "pais" => array("cod_pais" => "1","nombre" => "chile"),
+        "usuario" => array("nombre" => "Juan","apellido" => "perez","correo" => "juan.perez@usm.cl","contraseña"=> "contraseña","pais" => "1"),
+        "cuenta_bancaria" => array("id_usuario" => "1","balance" => "1000"),
+        "moneda" => array("sigla" => "CLP","nombre" => "Peso chileno"),
+        "precio_moneda" => array("id_moneda" => "1","valor" => "120"),
+        "usuario_tiene_moneda" => array("balance" => "1200","id_usuario" => "1","id_moneda" => "1")
     );
 
-    return $forms[$table];
+    return array("form" => $forms[$table], "paises" => $paises);
 }
 ?>
