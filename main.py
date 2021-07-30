@@ -445,7 +445,9 @@ def max_value():
 
 	moneda = json['moneda']
 
-	monedas = PrecioMoneda.query.filter(PrecioMoneda.id_moneda == moneda).order_by(PrecioMoneda.valor.desc()).limit(1)
+	moneda = Moneda.query.filter(Moneda.sigla == moneda).first()
+	
+	monedas = PrecioMoneda.query.filter(PrecioMoneda.id_moneda == moneda.id).order_by(PrecioMoneda.valor.desc()).limit(1)
 	monedas = [moneda.json()['valor'] for moneda in monedas]
 	return jsonify({'data':monedas[0]}), 200
 
@@ -456,10 +458,12 @@ def circulacion():
 		return jsonify({'message': 'Bad request'}), 400
 
 	moneda = json['moneda']
+	
+	moneda = Moneda.query.filter(Moneda.sigla == moneda).first()
 
 	monedas = UsuarioTieneMoneda.query.\
 					with_entities(func.sum(UsuarioTieneMoneda.balance)).\
-					filter(UsuarioTieneMoneda.id_moneda == moneda).all()
+					filter(UsuarioTieneMoneda.id_moneda == moneda.id).all()
 	
 	monedas = monedas[0][0]
 	return jsonify({'data':monedas}), 200
